@@ -14,6 +14,6 @@ def app(request):
 
 
 def test_add_address(app):
-    app.login("admin", "secret")
+    app.session.login("admin", "secret")
     app.add_address(Personal_data(name="Maria",middlename="Olegovna",lastname="Vasnecova",nickname="OOMa",company="Pepsi",phone="345-55-66"))
-    app.logout()
+    app.session.logout()
