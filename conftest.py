@@ -3,7 +3,7 @@ __author__ = '1'
 import pytest
 from fixture.application import Application
 
-@pytest.fixture
+@pytest.fixture(scope = "session")
 def app(request):
     # create fixture
     fixture = Application()
