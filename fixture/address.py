@@ -1,11 +1,14 @@
 __author__ = '1'
 
-__author__ = '1'
-
 class AddressHelper:
 
     def __init__(self, app):
         self.app = app
+
+    def open_address_page(self):
+        wd = self.app.wd
+        if not (wd.current_url.endswith("http://localhost/addressbook/") and len(wd.find_elements_by_name("Send e-Mail")) > 0):
+            self.app.open_home_page()
 
     def fill_address_form(self, data):
         wd = self.app.wd
@@ -35,7 +38,7 @@ class AddressHelper:
         self.fill_address_form(data)
         # submit adress creation
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
-        self.app.open_home_page()
+        self.open_address_page()
 
     def select_first_address(self):
         wd = self.app.wd
@@ -44,12 +47,12 @@ class AddressHelper:
     def delete_first_address(self):
         wd = self.app.wd
         # open groups page
-        self.app.open_home_page()
+        self.open_address_page()
         self.select_first_address()
         # submit deletion
         wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
         wd.switch_to_alert().accept()
-        self.app.open_home_page()
+        self.open_address_page()
 
     def change_field_value(self,field_name, text):
         wd = self.app.wd
@@ -71,7 +74,7 @@ class AddressHelper:
         self.change_field_value("home",data.phone)
         # submit adress creation
         wd.find_element_by_xpath("//div[@id='content']/form[1]/input[22]").click()
-        self.app.open_home_page()
+        self.open_address_page()
 
     def count(self):
         wd = self.app.wd
