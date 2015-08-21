@@ -67,10 +67,10 @@ class AddressHelper:
             wd.find_element_by_name(field_name).clear()
             wd.find_element_by_name(field_name).send_keys(text)
 
-    def edit_first_address(self, data):
+    def edit_address_by_index(self, index, data):
         wd = self.app.wd
         # init adress creation
-        wd.find_element_by_css_selector("img[alt=\"Edit\"]").click()
+        wd.find_elements_by_css_selector("img[alt=\"Edit\"]")[index].click()
         # fill form
         self.change_field_value("firstname",data.name)
         self.change_field_value("middlename",data.middlename)
@@ -82,6 +82,9 @@ class AddressHelper:
         wd.find_element_by_xpath("//div[@id='content']/form[1]/input[22]").click()
         self.open_address_page()
         self.address_cache = None
+
+    def edit_first_address(self, data):
+        self.edit_address_by_index(0)
 
     def count(self):
         wd = self.app.wd
