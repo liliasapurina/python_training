@@ -40,6 +40,7 @@ class AddressHelper:
         # submit adress creation
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
         self.open_address_page()
+        self.address_cache = None
 
     def select_first_address(self):
         wd = self.app.wd
@@ -54,6 +55,7 @@ class AddressHelper:
         wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
         wd.switch_to_alert().accept()
         self.open_address_page()
+        self.address_cache = None
 
     def change_field_value(self,field_name, text):
         wd = self.app.wd
@@ -76,19 +78,23 @@ class AddressHelper:
         # submit adress creation
         wd.find_element_by_xpath("//div[@id='content']/form[1]/input[22]").click()
         self.open_address_page()
+        self.address_cache = None
 
     def count(self):
         wd = self.app.wd
         return len(wd.find_elements_by_name("selected[]"))
 
+    address_cache = None
+
     def get_address_list(self):
-        wd = self.app.wd
-        self.open_address_page()
-        addresses = []
-        for element in wd.find_elements_by_xpath("//div[1]/div[4]/form[2]/table/tbody/tr[@name='entry']"):
-            cells = element.find_elements_by_tag_name("td")
-            name = cells[2].text
-            middlename = cells[3].text
-            id = element.find_element_by_name("selected[]").get_attribute("value")
-            addresses.append(Address(name=name,middlename = middlename,id=id))
-        return addresses
+        if self.address_cache is None:
+            wd = self.app.wd
+            self.open_address_page()
+            self.address_cache = []
+            for element in wd.find_elements_by_xpath("//div[1]/div[4]/form[2]/table/tbody/tr[@name='entry']"):
+                cells = element.find_elements_by_tag_name("td")
+                name = cells[2].text
+                middlename = cells[3].text
+                id = element.find_element_by_name("selected[]").get_attribute("value")
+                self.address_cache.append(Address(name=name,middlename = middlename,id=id))
+        return list(self.address_cache)
