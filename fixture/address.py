@@ -42,20 +42,23 @@ class AddressHelper:
         self.open_address_page()
         self.address_cache = None
 
-    def select_first_address(self):
+    def select_address_by_index(self, index):
         wd = self.app.wd
-        wd.find_element_by_name("selected[]").click()
+        wd.find_elements_by_name("selected[]")[index].click()
 
-    def delete_first_address(self):
+    def delete_address_by_index(self, index):
         wd = self.app.wd
         # open groups page
         self.open_address_page()
-        self.select_first_address()
+        self.select_address_by_index(index)
         # submit deletion
         wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
         wd.switch_to_alert().accept()
         self.open_address_page()
         self.address_cache = None
+
+    def delete_first_address(self):
+        self.delete_address_by_index(0)
 
     def change_field_value(self,field_name, text):
         wd = self.app.wd
