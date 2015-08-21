@@ -90,4 +90,3 @@ class AddressHelper:
             id = element.find_element_by_name("selected[]").get_attribute("value")
             addresses.append(Address(name=text,id=id))
         return addresses
-
