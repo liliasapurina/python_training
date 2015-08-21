@@ -1,4 +1,5 @@
 __author__ = '1'
+from model.address import Address
 
 class AddressHelper:
 
@@ -79,4 +80,14 @@ class AddressHelper:
     def count(self):
         wd = self.app.wd
         return len(wd.find_elements_by_name("selected[]"))
+
+    def get_address_list(self):
+        wd = self.app.wd
+        self.open_address_page()
+        addresses = []
+        for element in wd.find_elements_by_xpath("//div[1]/div[4]/form[2]/table/tbody/tr[@name='entry']"):
+            text = element.text
+            id = element.find_element_by_name("selected[]").get_attribute("value")
+            addresses.append(Address(name=text,id=id))
+        return addresses
 
