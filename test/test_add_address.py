@@ -3,6 +3,9 @@ from model.address import Address
 
 def test_add_address(app):
     old_addresses = app.address.get_address_list()
-    app.address.create(Address(name="Maria",middlename="Olegovna",lastname="Vasnecova",nickname="OOMa",company="Pepsi",phone="345-55-66"))
+    current_address = Address(name="Maria",lastname="Olegovna",middlename="Vasnecova",nickname="OOMa",company="Pepsi",phone="345-55-66")
+    app.address.create(current_address)
     new_addresses = app.address.get_address_list()
     assert len(old_addresses) + 1 == len(new_addresses)
+    old_addresses.append(current_address)
+    assert sorted(old_addresses, key=Address.id_or_max) == sorted(new_addresses, key=Address.id_or_max)

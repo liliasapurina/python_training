@@ -86,7 +86,9 @@ class AddressHelper:
         self.open_address_page()
         addresses = []
         for element in wd.find_elements_by_xpath("//div[1]/div[4]/form[2]/table/tbody/tr[@name='entry']"):
-            text = element.text
+            cells = element.find_elements_by_tag_name("td")
+            name = cells[2].text
+            middlename = cells[3].text
             id = element.find_element_by_name("selected[]").get_attribute("value")
-            addresses.append(Address(name=text,id=id))
+            addresses.append(Address(name=name,middlename = middlename,id=id))
         return addresses
