@@ -70,12 +70,12 @@ class AddressHelper:
     def open_address_by_index(self,index):
         wd = self.app.wd
         # init adress creation
-        return wd.find_elements_by_css_selector("img[alt=\"Edit\"]")[index].click()
+        return wd.find_elements_by_css_selector('img[alt="Edit"]')[index].click()
 
     def edit_address_by_index(self, index, data):
         wd = self.app.wd
         # init adress creation
-        wd.find_elements_by_css_selector("img[alt=\"Edit\"]")[index].click()
+        wd.find_elements_by_css_selector('img[alt="Edit"]')[index].click()
         # fill form
         self.change_field_value("firstname",data.name)
         self.change_field_value("middlename",data.middlename)
