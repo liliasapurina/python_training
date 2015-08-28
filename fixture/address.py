@@ -67,6 +67,11 @@ class AddressHelper:
             wd.find_element_by_name(field_name).clear()
             wd.find_element_by_name(field_name).send_keys(text)
 
+    def open_address_by_index(self,index):
+        wd = self.app.wd
+        # init adress creation
+        return wd.find_elements_by_css_selector("img[alt=\"Edit\"]")[index].click()
+
     def edit_address_by_index(self, index, data):
         wd = self.app.wd
         # init adress creation
@@ -102,5 +107,20 @@ class AddressHelper:
                 name = cells[2].text
                 middlename = cells[3].text
                 id = element.find_element_by_name("selected[]").get_attribute("value")
-                self.address_cache.append(Address(name=name,middlename = middlename,id=id))
+                all_phones = cells[5].text.splitlines()
+                self.address_cache.append(Address(name=name, middlename=middlename, id=id,
+                                                  phone=all_phones[0]))
         return list(self.address_cache)
+
+    def get_address_info_from_edit_page(self, index):
+        wd = self.app.wd
+        self.open_address_by_index(index)
+        name = wd.find_element_by_name("firstname").get_attribute("value")
+        middlename = wd.find_element_by_name("middlename").get_attribute("value")
+        id = wd.find_element_by_name("id").get_attribute("value")
+        phone = wd.find_element_by_name("home").get_attribute("value")
+        mobilephone = wd.find_element_by_name("mobile").get_attribute("value")
+        workphone = wd.find_element_by_name("work").get_attribute("value")
+        secondaryphone = wd.find_element_by_name("phone2").get_attribute("value")
+        return Address(name=name, middlename=middlename, id=id,
+                       phone=phone)

@@ -4,7 +4,7 @@ from random import randrange
 
 def test_edit_first_address_name(app):
     if app.address.count() == 0:
-        app.address.create(Address(name="Maria",middlename="Olegovna",lastname="Vasnecova",nickname="OOMa",company="Pepsi",phone="345-55-66"))
+        app.address.create(Address(name="Maria",middlename="Olegovna",lastname="Vasnecova",nickname="OOMa",company="Pepsi",phone="3455566"))
     old_addresses = app.address.get_address_list()
     current_address = Address(name="Maria_edited")
     index = randrange(len(old_addresses))
@@ -17,7 +17,7 @@ def test_edit_first_address_name(app):
 
 #def test_edit_first_address_company(app):
 #    if app.address.count() == 0:
-#        app.address.create(Address(name="Maria",middlename="Olegovna",lastname="Vasnecova",nickname="OOMa",company="Pepsi",phone="345-55-66"))
+#        app.address.create(Address(name="Maria",middlename="Olegovna",lastname="Vasnecova",nickname="OOMa",company="Pepsi",phone="34555-66"))
 #    old_addresses = app.address.get_address_list()
 #    app.address.edit_first_address(Address(company="Pepsi_edited"))
 #    new_addresses = app.address.get_address_list()
