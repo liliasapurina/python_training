@@ -21,11 +21,19 @@ def merge_phones_like_on_home_page(address):
                                       [address.phone, address.mobilephone, address.workphone, address.secondaryphone]))))
 
 def merge_fields_like_on_view_page(address):
-   dog_index = address.email.find("@")
    return str(address.name)+" "+str(address.middlename)\
           +" "+str(address.lastname)+"\n"+str(address.nickname)\
           +"\n"+str(address.company)+"\n"+"\nH: "+str(address.phone)\
           +"\nM: "+str(address.mobilephone)+"\nW: "+str(address.workphone)\
-          +"\n"+"\n"+str(address.email)+" (www."+str(address.email)[dog_index+1:len(str(address.email))]+")"\
-          +"\n"+str(address.email2)\
-          +"\n"+str(address.email3)+"\n"+"\nP: "+str(address.secondaryphone)
+          +"\n"+"\n"\
+          +create_view_for_email(str(address.email))\
+          +create_view_for_email(str(address.email2))\
+          +create_view_for_email(str(address.email3))+'\n'\
+          +"\nP: "+str(address.secondaryphone)
+
+def create_view_for_email(email):
+    if email != "":
+        dog_index = email.find("@")
+        return email+" (www."+email[dog_index+1:len(email)]+")"
+    else:
+        return "\n"
