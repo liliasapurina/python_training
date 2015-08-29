@@ -118,13 +118,21 @@ class AddressHelper:
         self.open_address_to_edit_by_index(index)
         name = wd.find_element_by_name("firstname").get_attribute("value")
         middlename = wd.find_element_by_name("middlename").get_attribute("value")
+        lastname = wd.find_element_by_name("lastname").get_attribute("value")
+        company = wd.find_element_by_name("company").get_attribute("value")
+        nickname = wd.find_element_by_name("nickname").get_attribute("value")
         id = wd.find_element_by_name("id").get_attribute("value")
+        email = wd.find_element_by_name("email").get_attribute("value")
+        email2 = wd.find_element_by_name("email2").get_attribute("value")
+        email3 = wd.find_element_by_name("email3").get_attribute("value")
         phone = wd.find_element_by_name("home").get_attribute("value")
         mobilephone = wd.find_element_by_name("mobile").get_attribute("value")
         workphone = wd.find_element_by_name("work").get_attribute("value")
         secondaryphone = wd.find_element_by_name("phone2").get_attribute("value")
-        return Address(name=name, middlename=middlename, id=id,
-                       phone=phone, mobilephone=mobilephone,workphone=workphone,secondaryphone=secondaryphone)
+        return Address(name=name, middlename=middlename,lastname=lastname, id=id,
+                       company=company,nickname=nickname,
+                       phone=phone, mobilephone=mobilephone,workphone=workphone,secondaryphone=secondaryphone,
+                       email=email, email2=email2, email3=email3)
 
     def open_address_to_edit_by_index(self, index):
         wd = self.app.wd
@@ -144,8 +152,8 @@ class AddressHelper:
         wd = self.app.wd
         self.open_address_view_by_index(index)
         text = wd.find_element_by_id("content").text
-        phone = re.search("H: (.*)",text).group(1)
-        mobilephone = re.search("M: (.*)",text).group(1)
-        workphone = re.search("W: (.*)",text).group(1)
-        secondaryphone = re.search("P: (.*)",text).group(1)
-        return Address(phone=phone, mobilephone=mobilephone,workphone=workphone,secondaryphone=secondaryphone)
+        #phone = re.search("H: (.*)",text).group(1)
+        #mobilephone = re.search("M: (.*)",text).group(1)
+        #workphone = re.search("W: (.*)",text).group(1)
+        #secondaryphone = re.search("F: (.*)",text).group(1)
+        return Address(all_fields=text)
