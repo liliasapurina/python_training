@@ -106,11 +106,15 @@ class AddressHelper:
             for element in wd.find_elements_by_xpath("//div[1]/div[4]/form[2]/table/tbody/tr[@name='entry']"):
                 cells = element.find_elements_by_tag_name("td")
                 name = cells[2].text
-                middlename = cells[3].text
+                lastname = cells[1].text
+                address = cells[3].text
                 id = cells[0].find_element_by_tag_name("input").get_attribute("value")
                 all_phones = cells[5].text
-                self.address_cache.append(Address(name=name, middlename=middlename, id=id,
-                                                  all_phones_from_home_page=all_phones))
+                all_emails = cells[4].text
+                self.address_cache.append(Address(name=name, lastname=lastname, id=id,
+                                                  address=address,
+                                                  all_phones_from_home_page=all_phones,
+                                                  all_emails_from_home_page=all_emails))
         return list(self.address_cache)
 
     def get_address_info_from_edit_page(self, index):
@@ -121,6 +125,7 @@ class AddressHelper:
         lastname = wd.find_element_by_name("lastname").get_attribute("value")
         company = wd.find_element_by_name("company").get_attribute("value")
         nickname = wd.find_element_by_name("nickname").get_attribute("value")
+        address = wd.find_element_by_name("address").get_attribute("value")
         id = wd.find_element_by_name("id").get_attribute("value")
         email = wd.find_element_by_name("email").get_attribute("value")
         email2 = wd.find_element_by_name("email2").get_attribute("value")
@@ -129,7 +134,7 @@ class AddressHelper:
         mobilephone = wd.find_element_by_name("mobile").get_attribute("value")
         workphone = wd.find_element_by_name("work").get_attribute("value")
         secondaryphone = wd.find_element_by_name("phone2").get_attribute("value")
-        return Address(name=name, middlename=middlename,lastname=lastname, id=id,
+        return Address(name=name, middlename=middlename,lastname=lastname,address=address, id=id,
                        company=company,nickname=nickname,
                        phone=phone, mobilephone=mobilephone,workphone=workphone,secondaryphone=secondaryphone,
                        email=email, email2=email2, email3=email3)
