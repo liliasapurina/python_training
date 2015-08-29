@@ -1,5 +1,6 @@
 __author__ = '1'
 from model.address import Address
+import re
 
 class AddressHelper:
 
@@ -106,7 +107,6 @@ class AddressHelper:
                 cells = element.find_elements_by_tag_name("td")
                 name = cells[2].text
                 middlename = cells[3].text
-                #id = element.find_element_by_name("selected[]").get_attribute("value")
                 id = cells[0].find_element_by_tag_name("input").get_attribute("value")
                 all_phones = cells[5].text.splitlines()
                 self.address_cache.append(Address(name=name, middlename=middlename, id=id,
@@ -118,7 +118,7 @@ class AddressHelper:
 
     def get_address_info_from_edit_page(self, index):
         wd = self.app.wd
-        self.open_address_by_index(index)
+        self.open_address_to_edit_by_index(index)
         name = wd.find_element_by_name("firstname").get_attribute("value")
         middlename = wd.find_element_by_name("middlename").get_attribute("value")
         id = wd.find_element_by_name("id").get_attribute("value")
@@ -128,3 +128,27 @@ class AddressHelper:
         secondaryphone = wd.find_element_by_name("phone2").get_attribute("value")
         return Address(name=name, middlename=middlename, id=id,
                        phone=phone, mobilephone=mobilephone,workphone=workphone,secondaryphone=secondaryphone)
+
+    def open_address_to_edit_by_index(self, index):
+        wd = self.app.wd
+        self.open_address_page()
+        row = wd.find_elements_by_name("entry")[index]
+        cell = row.find_elements_by_tag_name("td")[7]
+        cell.find_element_by_tag_name("a").click()
+
+    def open_address_view_by_index(self, index):
+        wd = self.app.wd
+        self.open_address_page()
+        row = wd.find_elements_by_name("entry")[index]
+        cell = row.find_elements_by_tag_name("td")[6]
+        cell.find_element_by_tag_name("a").click()
+
+    def get_address_from_view_page(self, index):
+        wd = self.app.wd
+        self.open_address_view_by_index(index)
+        text = wd.find_element_by_id("content").text
+        phone = re.search("H: (.*)",text).group(1)
+        mobilephone = re.search("M: (.*)",text).group(1)
+        workphone = re.search("W: (.*)",text).group(1)
+        secondaryphone = re.search("P: (.*)",text).group(1)
+        return Address(phone=phone, mobilephone=mobilephone,workphone=workphone,secondaryphone=secondaryphone)
