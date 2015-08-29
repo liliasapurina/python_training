@@ -3,12 +3,14 @@ from sys import maxsize
 
 class Address:
     def __init__(self,name = None,middlename = None,lastname = None,nickname = None,company = None,id = None,
-                 phone = None, mobilephone = None, workphone = None, secondaryphone = None):
+                 phone = None, mobilephone = None, workphone = None, secondaryphone = None,
+                 all_phones_from_home_page = None):
         self.name = name
         self.phone = phone
         self.mobilephone = mobilephone
         self.workphone = workphone
         self.secondaryphone = secondaryphone
+        self.all_phones_from_home_page=all_phones_from_home_page
         self.middlename = middlename
         self.lastname = lastname
         self.nickname = nickname
