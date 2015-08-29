@@ -106,13 +106,14 @@ class AddressHelper:
                 cells = element.find_elements_by_tag_name("td")
                 name = cells[2].text
                 middlename = cells[3].text
-                id = element.find_element_by_name("selected[]").get_attribute("value")
+                #id = element.find_element_by_name("selected[]").get_attribute("value")
+                id = cells[0].find_element_by_tag_name("input").get_attribute("value")
                 all_phones = cells[5].text.splitlines()
                 self.address_cache.append(Address(name=name, middlename=middlename, id=id,
-                                                  phone=all_phones[0]),
+                                                  phone=all_phones[0],
                                                   mobilephone=all_phones[1],
                                                   workphone=all_phones[2],
-                                                  secondaryphone=all_phones[3])
+                                                  secondaryphone=all_phones[3]))
         return list(self.address_cache)
 
     def get_address_info_from_edit_page(self, index):
