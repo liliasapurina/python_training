@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 from model.address import Address
-import pytest
-from data.addresses import testdata
 
-@pytest.mark.parametrize("current_address",testdata,ids=[repr(x) for x in testdata])
-def test_add_address(app, current_address):
+def test_add_address(app, data_addresses):
+    current_address = data_addresses
     old_addresses = app.address.get_address_list()
     app.address.create(current_address)
     assert len(old_addresses) + 1 == app.address.count()
