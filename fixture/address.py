@@ -104,6 +104,22 @@ class AddressHelper:
         self.open_address_page()
         self.address_cache = None
 
+    def edit_address_by_id(self, id, data):
+        wd = self.app.wd
+        # init adress creation
+        wd.find_element_by_xpath("//a[@href='edit.php?id='%s'']/img" % id).click()
+        # fill form
+        self.change_field_value("firstname",data.name)
+        self.change_field_value("middlename",data.middlename)
+        self.change_field_value("lastname",data.lastname)
+        self.change_field_value("nickname",data.nickname)
+        self.change_field_value("company",data.company)
+        self.change_field_value("home",data.phone)
+        # submit adress creation
+        wd.find_element_by_xpath("//div[@id='content']/form[1]/input[22]").click()
+        self.open_address_page()
+        self.address_cache = None
+
     def edit_first_address(self, data):
         self.edit_address_by_index(0)
 
