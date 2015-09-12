@@ -2,7 +2,7 @@
 from model.address import Address
 from random import randrange
 
-def test_edit_first_address_name(app):
+def test_edit_first_address_name(app, check_ui):
     if app.address.count() == 0:
         app.address.create(Address(name="Maria",middlename="Olegovna",lastname="Vasnecova",nickname="OOMa",company="Pepsi",phone="3455566"))
     old_addresses = app.address.get_address_list()
@@ -14,11 +14,6 @@ def test_edit_first_address_name(app):
     new_addresses = app.address.get_address_list()
     old_addresses[index] = current_address
     assert sorted(old_addresses, key=Address.id_or_max) == sorted(new_addresses, key=Address.id_or_max)
+    if check_ui:
+        assert sorted(new_addresses, key = Address.id_or_max) == sorted(app.address.get_address_list(), key = Address.id_or_max)
 
-#def test_edit_first_address_company(app):
-#    if app.address.count() == 0:
-#        app.address.create(Address(name="Maria",middlename="Olegovna",lastname="Vasnecova",nickname="OOMa",company="Pepsi",phone="34555-66"))
-#    old_addresses = app.address.get_address_list()
-#    app.address.edit_first_address(Address(company="Pepsi_edited"))
-#    new_addresses = app.address.get_address_list()
-#    assert len(old_addresses) == len(new_addresses)
