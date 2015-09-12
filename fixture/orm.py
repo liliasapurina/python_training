@@ -16,6 +16,7 @@ class ORMFixture:
         name = Optional(str, column = "group_name")
         header = Optional(str, column = "group_header")
         footer = Optional(str, column = "group_footer")
+        addresses = Set(lambda: ORMFixture.ORMAddress, table = "address_in_groups", column = "id", reverse = "groups", lazy = True)
 
     class ORMAddress(db.Entity):
         _table_ = "addressbook"
@@ -31,6 +32,7 @@ class ORMFixture:
         secondaryphone = Optional(str, column = "phone2")
         address = Optional(str, column = "address")
         deprecated = Optional(datetime, column = "deprecated")
+        groups = Set(lambda: ORMFixture.ORMGroup, table = "address_in_groups", column = "group_id", reverse = "addresses", lazy = True)
 
 
     def __init__(self, host, user, name, password):
@@ -57,3 +59,14 @@ class ORMFixture:
     @db_session
     def get_address_list(self):
         return self.convert_addresses_to_model(select(a for a in ORMFixture.ORMAddress if a.deprecated is None))
+
+    @db_session
+    def get_address_in_group(self, group):
+        orm_group = list(select(g for g in ORMFixture.ORMGroup if g.id == group.id))[0]
+        return self.convert_addresses_to_model(orm_group.addresses)
+
+    @db_session
+    def get_address_not_in_group(self, group):
+        orm_group = list(select(g for g in ORMFixture.ORMGroup if g.id == group.id))[0]
+        return self.convert_addresses_to_model(
+            select(a for a in ORMFixture.ORMAddress if a.deprecated is None and orm_group not in a.groups))
