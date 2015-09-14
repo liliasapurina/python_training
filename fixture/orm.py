@@ -41,7 +41,7 @@ class ORMFixture:
 
     def convert_groups_to_model(self, groups):
         def convert(group):
-            Group(id = str(group.id), name = group.name, header = group.header, footer = group.footer)
+            return Group(id = str(group.id), name = group.name, header = group.header, footer = group.footer)
         return list(map(convert, groups))
 
     @db_session
@@ -50,7 +50,7 @@ class ORMFixture:
 
     def convert_addresses_to_model(self, addresses):
         def convert(address):
-            Address(id = str(address.id), name = address.name, lastname = address.lastname,
+            return Address(id = str(address.id), name = address.name, lastname = address.lastname,
                     email = address.email,email2 = address.email2, email3 = address.email3,
                     mobilephone = address.mobilephone, workphone = address.workphone, phone = address.phone, secondaryphone = address.secondaryphone,
                     address = address.address)
