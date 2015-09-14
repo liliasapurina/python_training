@@ -107,7 +107,7 @@ class AddressHelper:
     def edit_address_by_id(self, id, data):
         wd = self.app.wd
         # init adress creation
-        wd.find_element_by_xpath("//a[@href='edit.php?id='%s'']/img" % id).click()
+        wd.find_element_by_xpath("//a[@href='edit.php?id=%s']/img" % id).click()
         # fill form
         self.change_field_value("firstname",data.name)
         self.change_field_value("middlename",data.middlename)
